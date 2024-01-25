@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import schema from "../schema";
 
 interface Props {
   params: {
@@ -17,34 +18,32 @@ export function GET(
 }
 
 export async function PUT(
-    request: NextRequest,
-    { params }: { params: { id: number } })
-    {
-    
-       const body =  await request.json();
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  const body = await request.json();
+  const validation = schema.safeParse(body);
 
-       if(!body.name){
-           return NextResponse.json({error:"name is required"},{status:400});
-       }
+  if (!validation.success) {
+    return NextResponse.json(validation.error.errors, {
+      status: 400,
+    });
+  }
 
-       if(params.id > 10){
-           return NextResponse.json({error:"user not found"},{status:404});
-       }
+  if (params.id > 10) {
+    return NextResponse.json({ error: "user not found" }, { status: 404 });
+  }
 
-       return NextResponse.json({id:params.id,name:body.name});
-
+  return NextResponse.json({ id: params.id, name: body.name });
 }
 
 export function DELETE(
-    request: NextRequest,
-    { params }: { params: { id: number } })
-    {
-    
-       if(params.id > 10){
-           return NextResponse.json({error:"user not found"},{status:404});
-       }
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  if (params.id > 10) {
+    return NextResponse.json({ error: "user not found" }, { status: 404 });
+  }
 
-       return NextResponse.json({id:params.id}); ////putting in an object is optional
-
+  return NextResponse.json({ id: params.id }); ////putting in an object is optional
 }
-
