@@ -16,3 +16,8 @@
 body {
   color: rgb(var(--foreground-rgb));
 }
+@layer base{
+  h1{
+    @apply text-4xl font-extrabold mb-3; 
+  }
+}
