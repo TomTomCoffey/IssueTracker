@@ -33,5 +33,18 @@ export async function PUT(
 
        return NextResponse.json({id:params.id,name:body.name});
 
+}
+
+export function DELETE(
+    request: NextRequest,
+    { params }: { params: { id: number } })
+    {
+    
+       if(params.id > 10){
+           return NextResponse.json({error:"user not found"},{status:404});
+       }
+
+       return NextResponse.json({id:params.id}); ////putting in an object is optional
 
 }
+
