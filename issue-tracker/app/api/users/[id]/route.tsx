@@ -25,7 +25,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const body = await request.json();
   const validation = schema.safeParse(body);
@@ -36,20 +36,47 @@ export async function PUT(
     });
   }
 
-  if (params.id > 10) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  if (!user) {
     return NextResponse.json({ error: "user not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ id: params.id, name: body.name });
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: parseInt(params.id),
+    },
+    data: {
+      name: body.name,
+      email: body.email,
+    },
+  });
+
+  return NextResponse.json(updatedUser);
 }
 
-export function DELETE(
+export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
-  if (params.id > 10) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  if (!user) {
     return NextResponse.json({ error: "user not found" }, { status: 404 });
   }
 
+  await prisma.user.delete({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
   return NextResponse.json({ id: params.id }); ////putting in an object is optional
 }
