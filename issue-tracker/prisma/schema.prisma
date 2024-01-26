@@ -19,12 +19,8 @@ model User {
   registeredAt DateTime @default(now())
 }
 
-model Products{
-  id           Int      @id @default(autoincrement())
-  name         String
-  price        Int
-  description  String
-  image        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model Products {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Int
 }

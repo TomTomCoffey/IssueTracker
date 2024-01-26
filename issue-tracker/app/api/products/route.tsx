@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "./schema";
+import prisma from "@/prisma/client";
 
-export function GET(request: NextRequest) {
-  return NextResponse.json([
-    {
-      id: 1,
-      name: "milk",
-      price: 2.5,
-    },
-    {
-      id: 2,
-      name: "bread",
-      price: 3.5,
-    },
-    {
-      id: 3,
-      name: "John Smith",
-      price: 4.5,
-    },
-  ]);
+export async function GET(request: NextRequest) {
+  const products = await prisma.products.findMany({
+    ////in here you can filter, sort, etc.
+  });
+  if (!products) {
+    return NextResponse.json({ error: "products not found" }, { status: 404 });
+  }
+  return NextResponse.json(products);
 }
+
+/////////POST
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -30,8 +23,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  return NextResponse.json(
-    { id: 10, name: body.name, price: body.price },
-    { status: 201 }
-  );
+  // const product = await prisma.products.findUnique({
+  //   where: {
+  //     name: body.name,
+  //   },
+  // });
+
+  // if (product) {
+  //   return NextResponse.json(
+  //     { error: "product already exists" },
+  //     { status: 400 }
+  //   );
+  // }
+
+  const newProduct = await prisma.products.create({
+    data: {
+      name: body.name,
+      price: body.price,
+    },
+  });
+  return NextResponse.json(newProduct, { status: 201 });
 }
