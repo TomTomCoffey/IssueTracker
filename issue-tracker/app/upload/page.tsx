@@ -23,6 +23,7 @@ const uploadPage = () => {
                 "instagram",
                 "dropbox"
             ],
+            maxFiles: 1,
         }}
         onUpload={(result, widget) => {
           if (result.event !== "success") {
