@@ -16,14 +16,10 @@ const uploadPage = () => {
       <CldUploadWidget
         uploadPreset="obmhadyp"
         options={{
-            sources: [
-                "local",
-                "camera",
-                "facebook",
-                "instagram",
-                "dropbox"
-            ],
-            maxFiles: 1,
+          sources: ["local", "camera", "facebook", "instagram", "dropbox"],
+          maxFiles: 1,
+          resourceType: "image",
+          multiple: false,
         }}
         onUpload={(result, widget) => {
           if (result.event !== "success") {
