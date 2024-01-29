@@ -27,7 +27,16 @@ const Nav = () => {
           Login
         </Link>
       )}
-      {status === "authenticated" && <div>{session.user!.name} </div>}
+      {status === "authenticated" && (
+        <div>
+          {" "}
+          Hello {session.user!.name}
+          <Link href="/api/auth/signout" className="ml-5 mr-5">
+            {" "}
+            Logout{" "}
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
