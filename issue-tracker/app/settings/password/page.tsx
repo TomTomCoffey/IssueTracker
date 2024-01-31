@@ -59,7 +59,7 @@ const upDatePassword = () => {
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary" onClick={handleSubmit}>
-                  Login
+                  Change Password
                 </button>
               </div>
             </form>
