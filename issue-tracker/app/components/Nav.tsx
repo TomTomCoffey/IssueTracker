@@ -27,6 +27,11 @@ const Nav = () => {
           Login
         </Link>
       )}
+      {status === "unauthenticated" && (
+        <Link href="/signup" className="mr-5">
+          Sign Up
+        </Link>
+      )}
       {status === "authenticated" && (
         <div>
           {" "}
